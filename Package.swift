@@ -19,7 +19,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(name: "Logger",
                  url: "https://github.com/planetary-social/logger-ios",
-                 from: "0.0.1")
+                 from: "0.0.2")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -29,6 +29,7 @@ let package = Package(
             dependencies: ["Logger"]),
         .testTarget(
             name: "SecretsTests",
-            dependencies: ["Secrets"]),
+            dependencies: ["Secrets"],
+            resources: [.copy("Samples/Config.plist")]),
     ]
 )

@@ -7,12 +7,12 @@
 
 import Foundation
 
-class PlistService: SecretsService {
+class PlistService: BundleSecretsService {
 
     var dictionary: NSDictionary?
 
-    init() {
-        if let path = Bundle.main.path(forResource: "Config", ofType: "plist") {
+    init(bundle: Bundle = .main) {
+        if let path = bundle.path(forResource: "Config", ofType: "plist") {
             dictionary = NSDictionary(contentsOfFile: path)
         }
     }
