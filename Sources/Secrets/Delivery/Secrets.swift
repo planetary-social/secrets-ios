@@ -7,7 +7,7 @@
 
 import Logger
 
-public class Secrets {
+open class Secrets {
 
     public enum Key {
         case posthog
@@ -15,18 +15,22 @@ public class Secrets {
         case push
     }
     
-    public static let shared = Secrets()
+    public static let shared = Secrets(service: SecretsServiceAdapter(bundleSecretsService: PlistService()))
 
-    var service: SecretsService
+    var service: SecretsService?
 
-    init(service: SecretsService = SecretsServiceAdapter(bundleSecretsService: PlistService())) {
+    public init() {
+        self.service = nil
+    }
+
+    init(service: SecretsService) {
         self.service = service
     }
 
-    public func get(key: Secrets.Key) -> String? {
+    open func get(key: Secrets.Key) -> String? {
         let mapper = KeyMapper()
         if let key = mapper.map(key: key) {
-            return service.get(key: key)
+            return service?.get(key: key)
         } else {
             Logger.shared.fatal(.incorrectValue, "KeyMapper couldn't map a key")
             return nil
