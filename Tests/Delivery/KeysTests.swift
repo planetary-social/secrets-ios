@@ -11,11 +11,11 @@ import XCTest
 final class SecretsTests: XCTestCase {
 
     private var service: SecretsServiceMock!
-    private var secrets: Secrets!
+    private var secrets: Keys!
 
     override func setUp() {
         service = SecretsServiceMock()
-        secrets = Secrets(service: service)
+        secrets = Keys(service: service)
     }
 
     func testGet() {
@@ -24,4 +24,10 @@ final class SecretsTests: XCTestCase {
         XCTAssertEqual(secrets.get(key: .posthog), expectedValue)
     }
 
+    func testInit() {
+        secrets = Keys(bundle: .module)
+        let expectedValue = "posthog-key"
+        service.value = expectedValue
+        XCTAssertEqual(secrets.get(key: .posthog), expectedValue)
+    }
 }
